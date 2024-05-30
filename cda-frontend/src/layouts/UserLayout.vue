@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import GlobalHeader from '@/components/GlobalHeader.vue'
 </script>
 
 <template>
-  <div id="basicLayout">
+  <div id="userLayout">
     <a-layout style="height: 100vh">
       <a-layout-header class="header">
-        <global-header/>
+        <a-space>
+          <img class="logo" src="../assets/logo.png" alt="logo" />
+          <div> cda AI 答题应用平台</div>
+        </a-space>
       </a-layout-header>
       <a-layout-content class="content">
         <router-view />
@@ -19,24 +21,15 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
 </template>
 
 <style scoped>
-#basicLayout .header{
-  margin-bottom: 16px;
-  box-shadow: #eee 1px 1px 5px;
+#userLayout {
+  text-align: center;
+  background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")
+  0% 0% / 100% 100%;
 }
-#basicLayout .content{
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 28px;
-  background: linear-gradient(to right, #efefef, #ffffff);
-  padding: 20px;
+#userLayout .logo{
+  height: 72px;
 }
-.footer{
-  background-color: #efefef;
-  padding: 16px;
-  text-align: center  ;
-}
-.footer a {
+.footer {
   text-decoration: none;
   padding: 16px;
   text-align: center;
