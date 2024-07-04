@@ -12,13 +12,21 @@
           disabled
         >
           <div class="titleBar">
-            <img class="logo" src="../assets/logo.png" />
-            <div class="title">鱼答答</div>
+            <img class="logo" src="../assets/logo.png" alt="logo" />
+            <div class="title">C答</div>
           </div>
         </a-menu-item>
-        <a-menu-item v-for="item in visibleRoutes" :key="item.path">
-          {{ item.name }}
-        </a-menu-item>
+        <template v-for="item in visibleRoutes" :key="item.path">
+          <a-sub-menu v-if="item.children">
+            <template #title>{{ item.name }}</template>
+            <a-menu-item v-for="child in item.children" :key="child.path">
+              {{ child.name }}
+            </a-menu-item>
+          </a-sub-menu>
+          <a-menu-item v-else :key="item.path">
+            {{ item.name }}
+          </a-menu-item>
+        </template>
       </a-menu>
     </a-col>
     <a-col flex="100px">
@@ -38,6 +46,7 @@ import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
 import { useLoginUserStore } from "@/store/userStore";
 import checkAccess from "@/access/checkAccess";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 const loginUserStore = useLoginUserStore();
 
@@ -56,10 +65,10 @@ const visibleRoutes = computed(() => {
       return false;
     }
     // 根据权限过滤菜单
-    if (!checkAccess(loginUserStore.loginUser, item.meta?.access as string)) {
-      return false;
-    }
-    return true;
+    return checkAccess(
+      loginUserStore.loginUser,
+      (item.meta?.access as string) || ACCESS_ENUM.NOT_LOGIN
+    );
   });
 });
 

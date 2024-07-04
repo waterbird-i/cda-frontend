@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 import { Message } from "@arco-design/web-vue";
 
 const myAxios = axios.create({
@@ -9,8 +9,7 @@ const myAxios = axios.create({
 
 // 全局请求拦截器
 myAxios.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
+  function (config: InternalAxiosRequestConfig) {
     return config;
   },
   function (error) {
@@ -23,8 +22,6 @@ myAxios.interceptors.request.use(
 myAxios.interceptors.response.use(
   function (response) {
     console.log(response);
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     const { data } = response;
 
     // 未登录
