@@ -40,10 +40,16 @@
       <a-image width="64" :src="record.userAvatar" />
     </template>
     <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.createTime &&
+        dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.updateTime &&
+        dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -116,7 +122,7 @@ const onPageChange = (page: number) => {
  * 删除
  * @param record
  */
-const doDelete = async (record: API.User) => {
+const doDelete = async (record: API.ScoringResult) => {
   if (!record.id) {
     return;
   }

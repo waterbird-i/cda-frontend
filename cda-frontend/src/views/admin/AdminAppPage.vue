@@ -86,13 +86,22 @@
       {{ REVIEW_STATUS_MAP[record.reviewStatus] }}
     </template>
     <template #reviewTime="{ record }">
-      {{ dayjs(record.reviewTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.reviewTime &&
+        dayjs(record.reviewTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.createTime &&
+        dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.updateTime &&
+        dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -247,13 +256,12 @@ const columns = [
   {
     title: "应用名",
     dataIndex: "appName",
-    width: 160,
+    width: 180,
   },
   {
     title: "应用图标",
     dataIndex: "appIcon",
     slotName: "appIcon",
-    width: 100,
   },
   {
     title: "应用描述",

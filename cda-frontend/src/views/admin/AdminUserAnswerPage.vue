@@ -59,8 +59,8 @@
     :scrollbar="scrollbar"
     @page-change="onPageChange"
   >
-    <template #appIcon="{ record }">
-      <a-image width="64" :src="record.appIcon" />
+    <template #resultPicture="{ record }">
+      <a-image width="64" :src="record.resultPicture" />
     </template>
     <template #appType="{ record }">
       {{ APP_TYPE_MAP[record.appType] }}
@@ -68,14 +68,17 @@
     <template #scoringStrategy="{ record }">
       {{ SCORING_STRATEGY_MAP[record.scoringStrategy] }}
     </template>
-    <template #reviewStatus="{ record }">
-      {{ REVIEW_STRATEGY_MAP[record.reviewStatus] }}
-    </template>
     <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.createTime &&
+        dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.updateTime &&
+        dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -96,7 +99,7 @@ import {
 import dayjs from "dayjs";
 import {
   APP_TYPE_MAP,
-  REVIEW_STRATEGY_MAP,
+  REVIEW_STATUS_MAP,
   SCORING_STRATEGY_MAP,
 } from "@/constant/app";
 
@@ -109,10 +112,10 @@ const initSearchParams = {
   pageSize: 10,
 };
 
-const searchParams = ref<API.AppQueryRequest>({
+const searchParams = ref<API.UserAnswerQueryRequest>({
   ...initSearchParams,
 });
-const dataList = ref<API.App[]>([]);
+const dataList = ref<API.UserAnswer[]>([]);
 const total = ref<number>(0);
 
 /**
@@ -162,7 +165,7 @@ const onPageChange = (page: number) => {
  * 删除
  * @param record
  */
-const doDelete = async (record: API.App) => {
+const doDelete = async (record: API.UserAnswer) => {
   if (!record.id) {
     return;
   }
@@ -184,22 +187,36 @@ watchEffect(() => {
   loadData();
 });
 
-const getReviewStatus = (status: number) => {
-  switch (status) {
-    case 0:
-      return "待审核";
-    case 1:
-      return "通过";
-    case 2:
-      return "拒绝";
-  }
-};
-
 // 表格列配置
 const columns = [
   {
     title: "id",
     dataIndex: "id",
+    width: 100,
+  },
+  {
+    title: "结果id",
+    dataIndex: "resultId",
+    width: 140,
+  },
+  {
+    title: "结果名称",
+    dataIndex: "resultName",
+    width: 150,
+  },
+  {
+    title: "结果描述",
+    dataIndex: "resultName",
+    width: 200,
+  },
+  {
+    title: "结果图片",
+    dataIndex: "resultPicture",
+    slotName: "resultPicture",
+  },
+  {
+    title: "结果分数",
+    dataIndex: "resultScore",
     width: 100,
   },
   {

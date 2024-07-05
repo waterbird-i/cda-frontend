@@ -44,14 +44,25 @@
     :scrollbar="scrollbar"
     @page-change="onPageChange"
   >
-    <template #QuestionAvatar="{ record }">
-      <a-image width="64" :src="record.QuestionAvatar" />
+    <template #QuestionContent="{ record }">
+      <div
+        v-for="question in JSON.parse(record.questionContent)"
+        :key="question.title"
+      >
+        {{ question }}
+      </div>
     </template>
     <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.createTime &&
+        dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+      {{
+        record.updateTime &&
+        dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss")
+      }}
     </template>
     <template #optional="{ record }">
       <a-space>
@@ -151,38 +162,33 @@ const columns = [
   {
     title: "id",
     dataIndex: "id",
-    width: 100,
   },
   {
     title: "题目内容",
     dataIndex: "questionContent",
+    slotName: "QuestionContent",
   },
   {
     title: "应用id",
     dataIndex: "appId",
-    width: 100,
   },
   {
     title: "创建用户id",
     dataIndex: "userId",
-    width: 140,
   },
   {
     title: "创建时间",
     dataIndex: "createTime",
     slotName: "createTime",
-    width: 250,
   },
   {
     title: "更新时间",
     dataIndex: "updateTime",
     slotName: "updateTime",
-    width: 250,
   },
   {
     title: "操作",
     slotName: "optional",
-    width: 100,
     fixed: "right",
   },
 ];
