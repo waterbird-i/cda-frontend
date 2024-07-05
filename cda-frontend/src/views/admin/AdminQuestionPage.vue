@@ -9,13 +9,22 @@
       <a-input
         v-model="formSearchParams.questionContent"
         placeholder="请输入题目内容"
+        allow-clear
       />
     </a-form-item>
     <a-form-item field="qserId" label="用户id">
-      <a-input v-model="formSearchParams.userId" placeholder="请输入用户ID" />
+      <a-input
+        v-model="formSearchParams.userId"
+        placeholder="请输入用户ID"
+        allow-clear
+      />
     </a-form-item>
     <a-form-item field="appId" label="应用id">
-      <a-input v-model="formSearchParams.appId" placeholder="请输入用户简介" />
+      <a-input
+        v-model="formSearchParams.appId"
+        placeholder="请输入用户简介"
+        allow-clear
+      />
     </a-form-item>
     <a-form-item>
       <a-button type="primary" html-type="submit" style="width: 100px">

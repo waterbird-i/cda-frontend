@@ -44,7 +44,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "/admin/user_answer",
-        name: "回答管理",
+        name: "用户回答管理",
         component: AdminUserAnswerPage,
       },
     ],

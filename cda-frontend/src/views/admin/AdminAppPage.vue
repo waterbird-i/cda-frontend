@@ -6,12 +6,17 @@
     @submit="doSearch"
   >
     <a-form-item field="appName" label="应用名">
-      <a-input v-model="formSearchParams.appName" placeholder="请输入应用名" />
+      <a-input
+        v-model="formSearchParams.appName"
+        placeholder="请输入应用名"
+        allow-clear
+      />
     </a-form-item>
     <a-form-item field="appDesc" label="应用描述">
       <a-input
         v-model="formSearchParams.appDesc"
         placeholder="请输入应用描述"
+        allow-clear
       />
     </a-form-item>
     <a-grid :cols="3" :row-gap="16">
@@ -22,7 +27,7 @@
           type="button"
         >
           <a-radio value="0">得分类</a-radio>
-          <a-radio value="1">应用类</a-radio>
+          <a-radio value="1">测评类</a-radio>
         </a-radio-group>
       </div>
       <div>
@@ -72,13 +77,13 @@
       <a-image width="64" :src="record.appIcon" />
     </template>
     <template #appType="{ record }">
-      {{ record.appType === 0 ? "得分类" : "应用类" }}
+      {{ APP_TYPE_MAP[record.appType] }}
     </template>
     <template #scoringStrategy="{ record }">
-      {{ record.scoringStrategy === 0 ? "自定义" : "AI" }}
+      {{ SCORING_STRATEGY_MAP[record.scoringStrategy] }}
     </template>
     <template #reviewStatus="{ record }">
-      {{ getReviewStatus(record.reviewStatus) }}
+      {{ REVIEW_STATUS_MAP[record.reviewStatus] }}
     </template>
     <template #reviewTime="{ record }">
       {{ dayjs(record.reviewTime).format("YYYY-MM-DD HH:mm:ss") }}
@@ -91,6 +96,18 @@
     </template>
     <template #optional="{ record }">
       <a-space>
+        <a-button
+          v-if="record.reviewStatus !== REVIEW_STATUS_ENUM.PASS"
+          @click="doReview(record, REVIEW_STATUS_ENUM.PASS)"
+          status="success"
+          >通过
+        </a-button>
+        <a-button
+          v-if="record.reviewStatus !== REVIEW_STATUS_ENUM.REJECT"
+          @click="doReview(record, REVIEW_STATUS_ENUM.REJECT, '拒绝上架')"
+          status="warning"
+          >拒绝
+        </a-button>
         <a-button status="danger" @click="doDelete(record)">删除</a-button>
       </a-space>
     </template>
@@ -103,9 +120,16 @@ import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
 import {
   deleteAppUsingPost,
+  doAppReviewUsingPost,
   listAppByPageUsingPost,
 } from "@/api/appController";
 import dayjs from "dayjs";
+import {
+  APP_TYPE_MAP,
+  REVIEW_STATUS_ENUM,
+  REVIEW_STATUS_MAP,
+  SCORING_STRATEGY_MAP,
+} from "@/constant/app";
 
 const scrollbar = ref(true);
 const formSearchParams = ref<API.AppQueryRequest>({});
@@ -182,24 +206,36 @@ const doDelete = async (record: API.App) => {
     message.error("删除失败，" + res.data.message);
   }
 };
-
+/**
+ * 审核
+ * @param record
+ * @param reviewStatus
+ */
+const doReview = async (
+  record: API.App,
+  reviewStatus: number,
+  reviewMessage?: string
+) => {
+  if (!record.id) {
+    return;
+  }
+  const res = await doAppReviewUsingPost({
+    id: record.id,
+    reviewStatus,
+    reviewMessage,
+  });
+  if (res.data.code === 0) {
+    loadData();
+  } else {
+    message.error("审核失败，" + res.data.message);
+  }
+};
 /**
  * 监听 searchParams 变量，改变时触发数据的重新加载
  */
 watchEffect(() => {
   loadData();
 });
-
-const getReviewStatus = (status: number) => {
-  switch (status) {
-    case 0:
-      return "待审核";
-    case 1:
-      return "通过";
-    case 2:
-      return "拒绝";
-  }
-};
 
 // 表格列配置
 const columns = [
@@ -279,7 +315,7 @@ const columns = [
     title: "操作",
     slotName: "optional",
     fixed: "right",
-    width: 90,
+    width: 100,
   },
 ];
 </script>

@@ -6,12 +6,17 @@
     @submit="doSearch"
   >
     <a-form-item field="appId" label="应用id">
-      <a-input v-model="formSearchParams.appId" placeholder="请输入应用id" />
+      <a-input
+        v-model="formSearchParams.appId"
+        placeholder="请输入应用id"
+        allow-clear
+      />
     </a-form-item>
     <a-form-item field="resultDesc" label="结果描述">
       <a-input
         v-model="formSearchParams.resultName"
         placeholder="请输入结果名称"
+        allow-clear
       />
     </a-form-item>
     <a-form-item>

@@ -6,7 +6,11 @@
     @submit="doSearch"
   >
     <a-form-item field="appName" label="应用名">
-      <a-input v-model="formSearchParams.appId" placeholder="请输入应用id" />
+      <a-input
+        v-model="formSearchParams.appId"
+        placeholder="请输入应用id"
+        allow-clear
+      />
     </a-form-item>
     <a-grid :cols="3" :row-gap="16">
       <div>
@@ -16,7 +20,7 @@
           type="button"
         >
           <a-radio value="0">得分类</a-radio>
-          <a-radio value="1">应用类</a-radio>
+          <a-radio value="1">测评类</a-radio>
         </a-radio-group>
       </div>
       <div>
@@ -59,13 +63,13 @@
       <a-image width="64" :src="record.appIcon" />
     </template>
     <template #appType="{ record }">
-      {{ record.appType === 0 ? "得分类" : "应用类" }}
+      {{ APP_TYPE_MAP[record.appType] }}
     </template>
     <template #scoringStrategy="{ record }">
-      {{ record.scoringStrategy === 0 ? "自定义" : "AI" }}
+      {{ SCORING_STRATEGY_MAP[record.scoringStrategy] }}
     </template>
     <template #reviewStatus="{ record }">
-      {{ getReviewStatus(record.reviewStatus) }}
+      {{ REVIEW_STRATEGY_MAP[record.reviewStatus] }}
     </template>
     <template #createTime="{ record }">
       {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
@@ -90,6 +94,11 @@ import {
   listUserAnswerByPageUsingPost,
 } from "@/api/userAnswerController";
 import dayjs from "dayjs";
+import {
+  APP_TYPE_MAP,
+  REVIEW_STRATEGY_MAP,
+  SCORING_STRATEGY_MAP,
+} from "@/constant/app";
 
 const scrollbar = ref(true);
 const formSearchParams = ref<API.UserAnswerQueryRequest>({});
