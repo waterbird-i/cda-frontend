@@ -7,9 +7,7 @@
           <p>{{ data.appDesc }}</p>
           <p>应用类型：{{ APP_TYPE_MAP[data.appType as number] }}</p>
           <p>
-            评分策略：{{
-              SCORING_STRATEGY_MAP[data.scoringStrategy as number]
-            }}}
+            评分策略：{{ SCORING_STRATEGY_MAP[data.scoringStrategy as number] }}
           </p>
           <p>
             <a-space>
@@ -36,20 +34,14 @@
             <a-button type="primary" :href="`/answer/do/${id}`">
               开始答题
             </a-button>
-            <a-button type="primary"> 分享应用</a-button>
-            <a-button v-if="isMy" type="primary" :href="`/add/question/${id}`">
+            <a-button> 分享应用</a-button>
+            <a-button v-if="isMy" :href="`/add/question/${id}`">
               设置题目
             </a-button>
-            <a-button
-              v-if="isMy"
-              type="primary"
-              :href="`/add/scoring_result/${id}`"
-            >
+            <a-button v-if="isMy" :href="`/add/scoring_result/${id}`">
               设置评分
             </a-button>
-            <a-button v-if="isMy" type="primary" :href="`/add/app/${id}`">
-              修改应用
-            </a-button>
+            <a-button v-if="isMy" :href="`/add/app/${id}`"> 修改应用 </a-button>
           </a-space>
         </a-col>
         <a-col flex="320px">
@@ -103,4 +95,11 @@ watchEffect(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+#appDetailPage {
+}
+
+#appDetailPage .content-wrapper > * {
+  margin-bottom: 24px;
+}
+</style>
