@@ -129,6 +129,7 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/update/app",
     name: "修改应用",
     component: AddAppPage,
+    props: true,
     meta: {
       hideInMenu: true,
     },
