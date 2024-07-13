@@ -144,6 +144,15 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/update/question/:appId",
+    name: "修改题目",
+    component: AddQuestionPage,
+    props: true,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
     path: "/add/scoring_result/:appId",
     name: "创建评分结果",
     component: AddScoringResultPage,
