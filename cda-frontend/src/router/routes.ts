@@ -161,6 +161,15 @@ export const routes: Array<RouteRecordRaw> = [
       hideInMenu: true,
     },
   },
+  // {
+  //   path: "/update/scoring_result/:appId",
+  //   name: "修改评分结果",
+  //   component: AddScoringResultPage,
+  //   props: true,
+  //   meta: {
+  //     hideInMenu: true,
+  //   },
+  // },
   {
     path: "/answer/do/:appId",
     name: "答题",
