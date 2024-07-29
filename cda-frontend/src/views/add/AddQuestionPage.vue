@@ -40,7 +40,12 @@
               <h4>题目 {{ index + 1 }} 选项列表</h4>
               <a-button
                 size="mini"
-                @click="addQuestionOption(question, question.options.length)"
+                @click="
+                  addQuestionOption(
+                    question,
+                    question.options?.length as number
+                  )
+                "
                 >底部添加选项
               </a-button>
             </a-space>
@@ -103,7 +108,7 @@ import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 
 const props = defineProps<{ appId: number }>();
-const questionContent = ref([] as API.QuestionContentDTO[]);
+const questionContent = ref<API.QuestionContentDTO[]>([]);
 const oldQuestion = ref<API.QuestionVO>();
 
 const loadData = async () => {
@@ -126,6 +131,7 @@ const loadData = async () => {
     message.error("获取题目失败, " + res.data.message);
   }
 };
+// 获取老数据
 watchEffect(() => {
   loadData();
 });

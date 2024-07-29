@@ -3,7 +3,7 @@ export const APP_TYPE_MAP: Record<number, string> = {
   1: "测评类",
 };
 
-export const SCORING_STRATEGY_MAP: Record<number, string> = {
+export const APP_SCORING_STRATEGY_MAP: Record<number, string> = {
   0: "自定义",
   1: "AI",
 };

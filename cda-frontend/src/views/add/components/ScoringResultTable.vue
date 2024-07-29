@@ -28,7 +28,7 @@
   </a-table>
 </template>
 <script setup lang="ts">
-import { defineProps, ref, watch, watchEffect, withDefaults } from "vue";
+import { defineProps, ref, defineExpose, watchEffect, withDefaults } from "vue";
 import API from "@/api";
 import {
   deleteScoringResultUsingPost,
@@ -58,11 +58,11 @@ const dataList = ref<API.ScoringResultVO[]>([]);
 const total = ref<number>(0);
 const loadData = async () => {
   if (!props.appId) return;
-  const papams = {
+  const params = {
     ...searchParams.value,
     appId: props.appId,
   };
-  const res = await listScoringResultVoByPageUsingPost(papams);
+  const res = await listScoringResultVoByPageUsingPost(params as never);
   if (res.data.code === 0) {
     dataList.value = res.data.data?.records || [];
     total.value = res.data.data?.total || 0;
@@ -93,6 +93,10 @@ const doDelete = async (record: API.ScoringResult) => {
 };
 watchEffect(() => {
   loadData();
+});
+
+defineExpose({
+  loadData,
 });
 // 表格列配置
 const columns = [

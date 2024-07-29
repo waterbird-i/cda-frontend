@@ -6,7 +6,7 @@
     @submit="doSearch"
   >
     <a-form-item field="appId" label="应用id">
-      <a-input
+      <a-input-number
         v-model="formSearchParams.appId"
         placeholder="请输入应用id"
         allow-clear
@@ -26,7 +26,7 @@
     </a-form-item>
   </a-form>
   <a-table
-    :columns="columns"
+    :columns="columns as any"
     :data="dataList"
     :pagination="{
       showTotal: true,

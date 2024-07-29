@@ -6,7 +6,7 @@
     @submit="doSearch"
   >
     <a-form-item field="appName" label="应用名">
-      <a-input
+      <a-input-number
         v-model="formSearchParams.appId"
         placeholder="请输入应用id"
         allow-clear
@@ -48,7 +48,7 @@
     </a-form-item>
   </a-form>
   <a-table
-    :columns="columns"
+    :columns="columns as any"
     :data="dataList"
     :pagination="{
       showTotal: true,
@@ -66,7 +66,7 @@
       {{ APP_TYPE_MAP[record.appType] }}
     </template>
     <template #scoringStrategy="{ record }">
-      {{ SCORING_STRATEGY_MAP[record.scoringStrategy] }}
+      {{ APP_SCORING_STRATEGY_MAP[record.scoringStrategy] }}
     </template>
     <template #createTime="{ record }">
       {{
@@ -97,11 +97,7 @@ import {
   listUserAnswerByPageUsingPost,
 } from "@/api/userAnswerController";
 import dayjs from "dayjs";
-import {
-  APP_TYPE_MAP,
-  REVIEW_STATUS_MAP,
-  SCORING_STRATEGY_MAP,
-} from "@/constant/app";
+import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
 
 const scrollbar = ref(true);
 const formSearchParams = ref<API.UserAnswerQueryRequest>({});
