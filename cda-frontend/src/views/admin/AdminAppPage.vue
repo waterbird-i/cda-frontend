@@ -80,7 +80,7 @@
       {{ APP_TYPE_MAP[record.appType] }}
     </template>
     <template #scoringStrategy="{ record }">
-      {{ SCORING_STRATEGY_MAP[record.scoringStrategy] }}
+      {{ APP_SCORING_STRATEGY_MAP[record.scoringStrategy] }}
     </template>
     <template #reviewStatus="{ record }">
       {{ REVIEW_STATUS_MAP[record.reviewStatus] }}
@@ -137,7 +137,7 @@ import {
   APP_TYPE_MAP,
   REVIEW_STATUS_ENUM,
   REVIEW_STATUS_MAP,
-  SCORING_STRATEGY_MAP,
+  APP_SCORING_STRATEGY_MAP,
 } from "@/constant/app";
 
 const scrollbar = ref(true);

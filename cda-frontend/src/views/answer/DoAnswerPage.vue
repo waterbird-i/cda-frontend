@@ -32,6 +32,7 @@
             circle
             :disabled="!currentAnswerIndex"
             @click="doSubmit"
+            :loading="loading"
             >查看结果
           </a-button>
           <a-button v-if="current > 1" circle @click="current -= 1"
@@ -69,6 +70,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const app = ref<API.AppVO>();
 const questionContent = ref<API.QuestionContentDTO[]>([]);
+
+const loading = ref<boolean>(false);
 
 // 当前题目序号
 const current = ref<number>(1);
@@ -129,11 +132,13 @@ const doRadioChange = (value: string) => {
 const router = useRouter();
 
 const doSubmit = async () => {
+  loading.value = true;
   const res = await addUserAnswerUsingPost({
     appId: props.appId as never,
     choices: answerList,
   });
   if (res.data.code === 0 && res.data.data) {
+    loading.value = false;
     router.push(`/answer/result/${res.data.data}`);
   } else {
     message.error("提交答案失败" + res.data.message);

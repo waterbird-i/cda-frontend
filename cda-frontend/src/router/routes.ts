@@ -9,7 +9,6 @@ import AdminUserPage from "@/views/admin/AdminUserPage.vue";
 import AdminAppPage from "@/views/admin/AdminAppPage.vue";
 import AdminQuestionPage from "@/views/admin/AdminQuestionPage.vue";
 import AdminScoringResultPage from "@/views/admin/AdminScoringResultPage.vue";
-import AboutView from "@/views/AboutView.vue";
 import AdminUserAnswerPage from "@/views/admin/AdminUserAnswerPage.vue";
 import AppDetailPage from "@/views/app/AppDetailPage.vue";
 import AddAppPage from "@/views/add/AddAppPage.vue";
@@ -94,11 +93,6 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       hideInMenu: true,
     },
-  },
-  {
-    path: "/about",
-    name: "about",
-    component: AboutView,
   },
   {
     path: "/app/detail/:id",

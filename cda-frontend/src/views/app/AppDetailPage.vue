@@ -7,7 +7,9 @@
           <p>{{ data.appDesc }}</p>
           <p>应用类型：{{ APP_TYPE_MAP[data.appType as number] }}</p>
           <p>
-            评分策略：{{ SCORING_STRATEGY_MAP[data.scoringStrategy as number] }}
+            评分策略：{{
+              APP_SCORING_STRATEGY_MAP[data.scoringStrategy as number]
+            }}
           </p>
           <p>
             <a-space>
@@ -56,7 +58,7 @@ import { withDefaults, defineProps, ref, watchEffect, computed } from "vue";
 import { getAppVoByIdUsingGet } from "@/api/appController";
 import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
-import { APP_TYPE_MAP, SCORING_STRATEGY_MAP } from "../../constant/app";
+import { APP_TYPE_MAP, APP_SCORING_STRATEGY_MAP } from "@/constant/app";
 import dayjs from "dayjs";
 import { useLoginUserStore } from "@/store/userStore";
 

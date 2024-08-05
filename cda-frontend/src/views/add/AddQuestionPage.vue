@@ -15,9 +15,18 @@
           :content-flex="false"
           :merge-props="false"
         >
-          <a-button @click="addQuestion(questionContent.length)" type="primary"
-            >底部添加题目
-          </a-button>
+          <a-space size="medium">
+            <a-button
+              @click="addQuestion(questionContent.length)"
+              type="primary"
+              >底部添加题目
+            </a-button>
+            <AiGenerateQuestionDrawer
+              :appId="appId"
+              :onSuccess="onAiGenerateSuccess"
+            />
+          </a-space>
+
           <div v-for="(question, index) in questionContent" :key="index">
             <a-space size="large">
               <h3>题目 {{ index + 1 }}</h3>
@@ -97,7 +106,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, defineProps, watchEffect } from "vue";
+import { ref, defineProps, withDefaults, watchEffect } from "vue";
 import API from "@/api";
 import {
   addQuestionUsingPost,
@@ -106,8 +115,17 @@ import {
 } from "@/api/questionController";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
+import AiGenerateQuestionDrawer from "@/views/add/components/AiGenerateQuestionDrawer.vue";
 
-const props = defineProps<{ appId: number }>();
+interface Props {
+  appId: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  appId: () => {
+    return "";
+  },
+});
 const questionContent = ref<API.QuestionContentDTO[]>([]);
 const oldQuestion = ref<API.QuestionVO>();
 
@@ -116,7 +134,7 @@ const loadData = async () => {
     return;
   }
   const res = await listQuestionVoByPageUsingPost({
-    appId: props.appId,
+    appId: props.appId as never,
     current: 1,
     pageSize: 1,
     sortField: "createTime",
@@ -207,6 +225,10 @@ const handleSubmit = async () => {
   } else {
     message.error("创建失败, " + res.data.message);
   }
+};
+const onAiGenerateSuccess = (result: API.QuestionContentDTO[]) => {
+  questionContent.value = [...questionContent.value, ...result];
+  message.success(`AI生成成功,已新增${result.length}道题目`);
 };
 </script>
 <style scoped>

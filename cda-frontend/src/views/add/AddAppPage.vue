@@ -43,7 +43,7 @@
             allow-clear
           >
             <a-option
-              v-for="(value, key) of SCORING_STRATEGY_MAP"
+              v-for="(value, key) of APP_SCORING_STRATEGY_MAP"
               :key="key"
               :value="Number(key)"
               :label="value"
@@ -69,7 +69,7 @@ import {
 } from "@/api/appController";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
-import { APP_TYPE_MAP, SCORING_STRATEGY_MAP } from "@/constant/app";
+import { APP_TYPE_MAP, APP_SCORING_STRATEGY_MAP } from "@/constant/app";
 import PictureUploader from "@/components/PictureUploader.vue";
 
 const form = ref({
@@ -102,7 +102,7 @@ const handleSubmit = async () => {
   if (res.data.code === 0) {
     message.success("操作成功，即将跳转到应用详情页");
     setTimeout(() => {
-      router.push(`/app/detail/${props.appId ?? res.data.data}`);
+      router.push(`/app/detail/${props.appId || res.data.data}`);
     }, 3000);
   } else {
     message.error("创建失败" + res.data.message);
