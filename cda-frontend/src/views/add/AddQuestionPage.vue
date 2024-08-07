@@ -24,6 +24,9 @@
             <AiGenerateQuestionDrawer
               :appId="appId"
               :onSuccess="onAiGenerateSuccess"
+              :onSSESuccess="onSSEGenerateSuccess as any"
+              :onSSEStart="onSSEStart"
+              :onSSEClose="onSSEClose"
             />
           </a-space>
 
@@ -71,10 +74,16 @@
               <a-form-item label="选项值">
                 <a-input v-model="option.value" placeholder="请输入选项值" />
               </a-form-item>
-              <a-form-item label="选项结果">
+              <a-form-item
+                v-if="appType === APP_TYPE_ENUM.TEXT"
+                label="选项结果"
+              >
                 <a-input v-model="option.result" placeholder="请输入选项结果" />
               </a-form-item>
-              <a-form-item label="选项分数">
+              <a-form-item
+                v-if="appType === APP_TYPE_ENUM.SCORE"
+                label="选项分数"
+              >
                 <a-input-number
                   v-model="option.score"
                   placeholder="请输入选项分数"
@@ -116,15 +125,18 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import AiGenerateQuestionDrawer from "@/views/add/components/AiGenerateQuestionDrawer.vue";
+import { APP_TYPE_ENUM } from "@/constant/app";
 
 interface Props {
   appId: string;
+  appType: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   appId: () => {
     return "";
   },
+  appType: 0,
 });
 const questionContent = ref<API.QuestionContentDTO[]>([]);
 const oldQuestion = ref<API.QuestionVO>();
@@ -226,9 +238,35 @@ const handleSubmit = async () => {
     message.error("创建失败, " + res.data.message);
   }
 };
+/**
+ * AI 生成题目成功后执行
+ * @param result
+ */
 const onAiGenerateSuccess = (result: API.QuestionContentDTO[]) => {
   questionContent.value = [...questionContent.value, ...result];
   message.success(`AI生成成功,已新增${result.length}道题目`);
+};
+/**
+ * AI 生成题目成功后执行（SSE）
+ * @param result
+ */
+const onSSEGenerateSuccess = (result: API.QuestionContentDTO) => {
+  questionContent.value.push(result);
+};
+/**
+ * SSE 开始生成
+ * @param event
+ */
+const onSSEStart = (event: any) => {
+  message.success("开始生成");
+};
+
+/**
+ * SSE 生成完毕
+ * @param event
+ */
+const onSSEClose = (event: any) => {
+  message.success("生成完毕");
 };
 </script>
 <style scoped>

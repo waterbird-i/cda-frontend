@@ -56,7 +56,10 @@ import { getAppVoByIdUsingGet } from "@/api/appController";
 import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
 import { listQuestionVoByPageUsingPost } from "@/api/questionController";
-import { addUserAnswerUsingPost } from "@/api/userAnswerController";
+import {
+  addUserAnswerUsingPost,
+  generateUserAnswerIdUsingGet,
+} from "@/api/userAnswerController";
 import { useRouter } from "vue-router";
 
 interface Props {
@@ -69,6 +72,7 @@ const props = withDefaults(defineProps<Props>(), {
   },
 });
 const app = ref<API.AppVO>();
+const id = ref<number>();
 const questionContent = ref<API.QuestionContentDTO[]>([]);
 
 const loading = ref<boolean>(false);
@@ -115,6 +119,16 @@ watchEffect(() => {
   currentAnswerIndex.value = answerList[current.value - 1];
 });
 
+// 生成唯一 id
+const generateId = async () => {
+  let res: any = await generateUserAnswerIdUsingGet();
+  if (res.data.code === 0) {
+    id.value = res.data.data as any;
+  } else {
+    message.error("获取唯一 id 失败，" + res.data.message);
+  }
+};
+
 const questionOptions = computed(() => {
   return currentQuestion.value?.options
     ? currentQuestion.value.options.map((option) => ({
@@ -133,7 +147,9 @@ const router = useRouter();
 
 const doSubmit = async () => {
   loading.value = true;
+  await generateId();
   const res = await addUserAnswerUsingPost({
+    id: id.value,
     appId: props.appId as never,
     choices: answerList,
   });

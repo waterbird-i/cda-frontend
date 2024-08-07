@@ -2,6 +2,10 @@ export const APP_TYPE_MAP: Record<number, string> = {
   0: "得分类",
   1: "测评类",
 };
+export const APP_TYPE_ENUM: Record<string, number> = {
+  SCORE: 0,
+  TEXT: 1,
+};
 
 export const APP_SCORING_STRATEGY_MAP: Record<number, string> = {
   0: "自定义",

@@ -129,7 +129,7 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/add/question/:appId",
+    path: "/add/question/:appId/:appType",
     name: "创建题目",
     component: AddQuestionPage,
     props: true,
@@ -138,7 +138,7 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/update/question/:appId",
+    path: "/update/question/:appId/:appType",
     name: "修改题目",
     component: AddQuestionPage,
     props: true,

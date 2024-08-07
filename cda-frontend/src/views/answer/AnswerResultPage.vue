@@ -5,10 +5,10 @@
         <a-col flex="auto" class="contentWrapper">
           <h2>{{ data.resultName }}</h2>
           <p>结果描述：{{ data.resultDesc }}</p>
-          <p>结果 id：{{ data.resultId }}</p>
-          <p>结果得分：{{ data.resultScore }}</p>
+          <p v-if="data.appType === APP_TYPE_ENUM.SCORE">
+            结果得分：{{ data.resultScore }}
+          </p>
           <p>我的答案：{{ data.choices }}</p>
-          <p>应用 id：{{ data.appId }}</p>
           <p>应用类型：{{ APP_TYPE_MAP[data?.appType || 0] }}</p>
           <p>
             评分策略：{{ APP_SCORING_STRATEGY_MAP[data?.scoringStrategy || 0] }}
@@ -42,7 +42,11 @@
 import { defineProps, ref, watchEffect, withDefaults } from "vue";
 import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
-import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
+import {
+  APP_SCORING_STRATEGY_MAP,
+  APP_TYPE_ENUM,
+  APP_TYPE_MAP,
+} from "@/constant/app";
 import dayjs from "dayjs";
 import { getUserAnswerVoByIdUsingGet } from "@/api/userAnswerController";
 
