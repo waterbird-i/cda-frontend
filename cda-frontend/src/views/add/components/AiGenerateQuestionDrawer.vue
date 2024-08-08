@@ -123,7 +123,10 @@ const handleSSESumbit = () => {
   sseSubmitting.value = true;
   const eventSource = new EventSource(
     "http://localhost:8101/api/question/ai_generate/sse" +
-      `?appId=${props.appId}&optionNumber=${form.optionNumber}&questionNumber=${form.questionNumber}`
+      `?appId=${props.appId}&optionNumber=${form.optionNumber}&questionNumber=${form.questionNumber}`,
+    {
+      withCredentials: true,
+    }
   );
   let first = true;
   eventSource.onmessage = function (event) {

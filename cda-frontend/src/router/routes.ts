@@ -17,6 +17,7 @@ import AddScoringResultPage from "@/views/add/AddScoringResultPage.vue";
 import DoAnswerPage from "@/views/answer/DoAnswerPage.vue";
 import AnswerResultPage from "@/views/answer/AnswerResultPage.vue";
 import MyAnswerPage from "@/views/answer/MyAnswerPage.vue";
+import AppStatisticPage from "@/views/app/AppStatisticPage.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -120,7 +121,7 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/update/app",
+    path: "/update/app/:appId",
     name: "修改应用",
     component: AddAppPage,
     props: true,
@@ -182,6 +183,14 @@ export const routes: Array<RouteRecordRaw> = [
     props: true,
     meta: {
       access: ACCESS_ENUM.USER,
+    },
+  },
+  {
+    path: "/app_statistic",
+    name: "应用统计",
+    component: AppStatisticPage,
+    meta: {
+      access: ACCESS_ENUM.ADMIN,
     },
   },
 ];
